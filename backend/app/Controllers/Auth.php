@@ -73,7 +73,7 @@ class Auth extends BaseController
 
         // Redirect based on type
         if ($type === 'admin') {
-            return redirect()->to('/admin/adminDashboard');
+            return redirect()->to('/admin/inventoryReports');
         }
 
         if ($type === 'seller' || $type === 'buyer-seller') {

@@ -26,53 +26,6 @@ class Admin extends BaseController
         }
     }
 
-    public function showDashboard()
-    {
-        $this->checkAdminAccess();
-
-        $usersModel  = new UsersModel();
-        $stocksModel = new StocksModel();
-
-        // Count all clients
-        $clientsCount = $usersModel->where('type', 'client')->countAllResults();
-
-        // Count all books
-        $booksCount = $stocksModel->countAllResults();
-
-        // Sales summary
-        $ordersModel = new OrdersModel();
-
-        $today = date('Y-m-d');
-        $monthStart = date('Y-m-01');
-
-        $todaySales = (float) ($ordersModel
-            ->where('status', 'completed')
-            ->where('DATE(created_at)', $today)
-            ->selectSum('total_amount', 'sum')
-            ->asArray()
-            ->first()['sum'] ?? 0.00);
-
-        $monthlySales = (float) ($ordersModel
-            ->where('status', 'completed')
-            ->where('DATE(created_at) >=', $monthStart)
-            ->where('DATE(created_at) <=', $today)
-            ->selectSum('total_amount', 'sum')
-            ->asArray()
-            ->first()['sum'] ?? 0.00);
-
-        // Admin name
-        $session   = session();
-        $firstName = $session->get('user')['first_name'] ?? 'Admin';
-
-        return view('admin/adminDashboard', [
-            'adminFirstName' => $firstName,
-            'clientsCount'   => $clientsCount,
-            'booksCount'     => $booksCount,
-            'todaySales'     => $todaySales,
-            'monthlySales'   => $monthlySales,
-        ]);
-    }
-
     public function stockPage()
     {
         $this->checkAdminAccess();
@@ -117,11 +70,15 @@ class Admin extends BaseController
 
         $inventoryCount = $stocksModel->countAllResults();
         $lowStockCount = $stocksModel->where('quantity <', 10)->countAllResults();
-        $totalStockValue = (float) ($stocksModel->selectSum('quantity * price', 'value')->asArray()->first()['value'] ?? 0.00);
+        $totalStockValue = (float) ($stocksModel
+            ->select('SUM(quantity * price) as value')
+            ->asArray()
+            ->first()['value'] ?? 0.00);
 
         $topSelling = $orderItemsModel
-            ->select('stock_id, SUM(quantity) as sold_quantity')
-            ->groupBy('stock_id')
+            ->select('order_items.stock_id, stocks.name as stock_name, SUM(order_items.quantity) as sold_quantity')
+            ->join('stocks', 'stocks.id = order_items.stock_id')
+            ->groupBy('order_items.stock_id')
             ->orderBy('sold_quantity', 'DESC')
             ->limit(10)
             ->findAll();
