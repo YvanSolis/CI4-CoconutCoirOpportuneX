@@ -15,7 +15,7 @@ $homeUrl = $user ? '/shop' : '/';
     <div class="flex justify-between items-center mx-auto px-6 py-4 max-w-7xl">
         <!-- Logo -->
         <div class="flex items-center space-x-3">
-            <img src="/assets/opportunex_logo.png" alt="EcoCoir Creations" class="w-12 h-12">
+            <img src="/assets/newlogo.png" alt="EcoCoir Creations" class="w-12 h-12">
             <h1 class="font-bold text-[#68604D] text-2xl header-title">EcoCoir Creations</h1>
         </div>
 

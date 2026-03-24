@@ -61,7 +61,7 @@ $cartCount = $session->has('cart') ? count($session->get('cart')) : 0;
         <div class="flex justify-between items-center mx-auto px-6 py-4 max-w-7xl">
             <!-- Logo -->
             <div class="flex items-center space-x-3">
-                <img src="/assets/opportunex_logo.png" alt="EcoCoir Creations" class="w-12 h-12">
+                <img src="/assets/newlogo.png" alt="EcoCoir Creations" class="w-12 h-12">
                 <h1 class="font-bold text-[#68604D] text-2xl header-title">EcoCoir Creations</h1>
             </div>
 
@@ -241,8 +241,8 @@ $cartCount = $session->has('cart') ? count($session->get('cart')) : 0;
                     Have questions about our products or need help choosing the right coconut coir solution?
                 </p>
                 <p class="text-[#68604D] text-lg">
-                    <strong>Email:</strong> hello@ecocoir.com<br>
-                    <strong>Phone:</strong> (555) 123-COIR<br>
+                    <strong>Email:</strong> OpportuneX@ecocoir.com<br>
+                    <strong>Phone:</strong> (555) 123-4563<br>
                     <strong>Hours:</strong> Mon-Fri 9AM-6PM PST
                 </p>
             </div>
@@ -285,6 +285,7 @@ $cartCount = $session->has('cart') ? count($session->get('cart')) : 0;
             </div>
             <div class="mt-8 pt-8 border-white/20 border-t text-white/60 text-center">
                 <p>&copy; 2026 EcoCoir Creations. All rights reserved. Made with ❤️ for our planet.</p>
+                <p class="mt-2 text-sm">For educational purposes only, and no copyright infringement is intended.</p>
             </div>
         </div>
     </footer>

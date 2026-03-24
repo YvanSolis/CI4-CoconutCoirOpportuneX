@@ -142,7 +142,7 @@
 
     <aside class="flex flex-col w-64 sidebar">
         <div class="p-6 border-[#D5C7AD] border-b text-center">
-            <img src="/assets/opportunex_logo.png" class="mx-auto mb-3 w-16 h-16" alt="logo">
+            <img src="/assets/newlogo.png" class="mx-auto mb-3 w-16 h-16" alt="logo">
             <h2 class="text-white text-2xl header-title">Admin Panel</h2>
         </div>
 

@@ -204,7 +204,7 @@ $currentPath = $uri->getPath();
     <!-- Sidebar -->
     <aside class="flex flex-col w-64 sidebar">
         <div class="p-6 border-[#D5C7AD] border-b text-center">
-            <img src="/assets/opportunex_logo.png" alt="EcoCoir Creations Logo" class="mx-auto mb-3 w-16 h-16">
+            <img src="/assets/newlogo.png" alt="EcoCoir Creations Logo" class="mx-auto mb-3 w-16 h-16">
             <h2 class="text-white text-2xl header-title">Admin Panel</h2>
         </div>
 
