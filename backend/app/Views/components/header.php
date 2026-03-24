@@ -24,8 +24,6 @@ $homeUrl = $user ? '/shop' : '/';
             <a href="/" class="font-semibold text-[#68604D] hover:text-[#8A8E75] transition">Home</a>
             <a href="/featured" class="font-semibold text-[#68604D] hover:text-[#8A8E75] transition">Featured</a>
             <a href="/shop" class="font-semibold text-[#68604D] hover:text-[#8A8E75] transition">Shop</a>
-            <a href="/about" class="font-semibold text-[#68604D] hover:text-[#8A8E75] transition">About</a>
-            <a href="/contact" class="font-semibold text-[#68604D] hover:text-[#8A8E75] transition">Contact</a>
         </nav>
 
         <!-- Cart & Auth -->
@@ -53,8 +51,6 @@ $homeUrl = $user ? '/shop' : '/';
         <a href="/" class="block px-6 py-3 border-b border-[#F2ECE0]">Home</a>
         <a href="/featured" class="block px-6 py-3 border-b border-[#F2ECE0]">Featured</a>
         <a href="/shop" class="block px-6 py-3 border-b border-[#F2ECE0]">Shop</a>
-        <a href="/about" class="block px-6 py-3 border-b border-[#F2ECE0]">About</a>
-        <a href="/contact" class="block px-6 py-3">Contact</a>
         <?php if ($user): ?>
             <a href="/profile" class="block px-6 py-3 border-t border-[#F2ECE0]">Profile</a>
             <form action="/logout" method="post" class="px-6 py-3">

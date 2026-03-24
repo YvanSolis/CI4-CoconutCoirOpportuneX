@@ -70,8 +70,6 @@ $cartCount = $session->has('cart') ? count($session->get('cart')) : 0;
                 <a href="/" class="font-semibold text-[#68604D] hover:text-[#8A8E75] transition">Home</a>
                 <a href="/featured" class="font-semibold text-[#68604D] hover:text-[#8A8E75] transition">Featured</a>
                 <a href="/shop" class="font-semibold text-[#68604D] hover:text-[#8A8E75] transition">Shop</a>
-                <a href="#about" class="font-semibold text-[#68604D] hover:text-[#8A8E75] transition">About</a>
-                <a href="#contact" class="font-semibold text-[#68604D] hover:text-[#8A8E75] transition">Contact</a>
             </nav>
 
             <!-- Cart & Auth -->
@@ -111,9 +109,9 @@ $cartCount = $session->has('cart') ? count($session->get('cart')) : 0;
         <!-- Hero Section with Super Crema style layout -->
         <section class="bg-[#F9F5EB] py-14">
             <div class="mx-auto px-6 max-w-7xl">
-                <div class="gap-6 grid xl:grid-cols-12">
-                    <!-- Left hero image block -->
-                    <div class="xl:col-span-7 bg-white shadow-lg rounded-3xl overflow-hidden">
+                <div class="gap-6 grid">
+                    <!-- Hero image block - full width -->
+                    <div class="bg-white shadow-lg rounded-3xl overflow-hidden">
                         <img src="/assets/coco_background.png" alt="EcoCoir Storefront" class="w-full h-96 object-cover">
                         <div class="p-10">
                             <p class="mb-4 font-semibold text-[#8A8E75] text-sm uppercase tracking-widest">Sustainable Selection</p>
@@ -121,69 +119,6 @@ $cartCount = $session->has('cart') ? count($session->get('cart')) : 0;
                             <p class="mb-6 text-[#5B5346] text-lg">30% off on select coconut coir essentials. Natural, compostable, and perfect for your home or garden.</p>
                             <a href="/shop" class="inline-block bg-[#8A8E75] hover:bg-[#6f7358] px-8 py-3 rounded-lg font-semibold text-white">Start Shopping</a>
                         </div>
-                    </div>
-
-                    <!-- Right mini category tiles -->
-                    <div class="gap-4 grid xl:col-span-5">
-                        <a href="/shop?filter=featured" class="flex items-center gap-4 bg-white shadow-sm hover:shadow-md p-5 border border-[#E1D9C5] rounded-2xl transition">
-                            <div class="bg-[#D5C7AD] p-4 rounded-xl text-2xl">🌟</div>
-                            <div>
-                                <h3 class="font-semibold text-[#3A3B2A]">Featured Picks</h3>
-                                <p class="text-[#7A775F] text-sm">Handpicked favorites of the week.</p>
-                            </div>
-                        </a>
-                        <a href="/shop?filter=trending" class="flex items-center gap-4 bg-white shadow-sm hover:shadow-md p-5 border border-[#E1D9C5] rounded-2xl transition">
-                            <div class="bg-[#D5C7AD] p-4 rounded-xl text-2xl">🔥</div>
-                            <div>
-                                <h3 class="font-semibold text-[#3A3B2A]">Trending Now</h3>
-                                <p class="text-[#7A775F] text-sm">Popular eco-products customers love.</p>
-                            </div>
-                        </a>
-                        <a href="/shop?filter=best-seller" class="flex items-center gap-4 bg-white shadow-sm hover:shadow-md p-5 border border-[#E1D9C5] rounded-2xl transition">
-                            <div class="bg-[#D5C7AD] p-4 rounded-xl text-2xl">🏆</div>
-                            <div>
-                                <h3 class="font-semibold text-[#3A3B2A]">Best Sellers</h3>
-                                <p class="text-[#7A775F] text-sm">Top-rated coir choices.</p>
-                            </div>
-                        </a>
-                        <a href="/shop" class="flex items-center gap-4 bg-white shadow-sm hover:shadow-md p-5 border border-[#E1D9C5] rounded-2xl transition">
-                            <div class="bg-[#D5C7AD] p-4 rounded-xl text-2xl">🛒</div>
-                            <div>
-                                <h3 class="font-semibold text-[#3A3B2A]">All Products</h3>
-                                <p class="text-[#7A775F] text-sm">Explore our complete collection.</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Weekly Best -->
-                <div class="mt-10">
-                    <div class="flex justify-between items-center mb-6">
-                        <div>
-                            <h2 class="font-bold text-[#3A3B2A] text-3xl">Best this week</h2>
-                            <p class="text-[#7A775F] text-sm">Handpicked for you from our top sellers.</p>
-                        </div>
-                        <a href="/shop" class="font-semibold text-[#8A8E75] hover:text-[#68604D]">See all products →</a>
-                    </div>
-
-                    <div class="gap-5 grid md:grid-cols-2 lg:grid-cols-4">
-                        <?php foreach (array_slice($randomProducts, 0, 4) as $product): ?>
-                            <div class="bg-white shadow-sm p-4 border border-[#E1D9C5] rounded-2xl">
-                                <img src="<?= esc($product->image) ?>" alt="<?= esc($product->name) ?>" class="mb-3 rounded-xl w-full h-44 object-cover">
-                                <h3 class="font-semibold text-[#3A3B2A] text-lg line-clamp-1"><?= esc($product->name) ?></h3>
-                                <p class="mb-2 text-[#7A775F] text-sm line-clamp-2"><?= esc(substr($product->description, 0, 70)) ?>...</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="font-bold text-[#8A8E75]">₱<?= number_format($product->price, 2) ?></span>
-                                    <?php if ($isLoggedIn): ?>
-                                        <button onclick="addToCart('<?= $product->id ?>', '<?= esc(addslashes($product->name)) ?>', '<?= $product->price ?>', '<?= $product->quantity ?>')" class="bg-[#8A8E75] hover:bg-[#68604D] px-3 py-2 rounded-lg font-semibold text-white text-xs">
-                                            Add to cart
-                                        </button>
-                                    <?php else: ?>
-                                        <a href="/loginPage" class="bg-[#BEC5A4] hover:bg-[#8A8E75] px-3 py-2 rounded-lg font-semibold text-white text-xs">Sign in to add</a>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>

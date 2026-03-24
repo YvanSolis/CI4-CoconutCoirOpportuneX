@@ -119,42 +119,48 @@ foreach ($cart as $c) {
                     <nav class="mb-8 text-center">
                         <a href="/shop" class="mx-2 text-[#68604D] hover:text-[#8A8E75]">All</a>
                         <a href="/shop?filter=featured" class="mx-2 text-[#68604D] hover:text-[#8A8E75]">Featured</a>
-                        <a href="/shop?filter=trending" class="mx-2 text-[#68604D] hover:text-[#8A8E75]">Trending</a>
-                        <a href="/shop?filter=best-seller" class="mx-2 text-[#68604D] hover:text-[#8A8E75]">Best Sellers</a>
                     </nav>
 
                     <div class="gap-8 grid md:grid-cols-3">
 
                         <?php if (!empty($products)): ?>
                             <?php foreach ($products as $p): ?>
-                                <div class="bg-white shadow p-5 border border-[#D5C7AD] rounded-xl">
+                                <div class="bg-white shadow-lg border border-[#D5C7AD] rounded-2xl overflow-hidden flex flex-col">
 
-                                    <!-- IMAGE FIX -->
-                                    <img src="<?= esc($p->image) ?>"
-                                        class="mb-3 rounded-lg w-full h-64 object-cover">
+                                    <!-- Image Container -->
+                                    <div class="p-4 bg-[#F9F5EB] flex items-center justify-center min-h-48">
+                                        <img src="<?= esc($p->image) ?>"
+                                            alt="<?= esc($p->name) ?>"
+                                            class="w-full h-auto object-contain max-h-48">
+                                    </div>
 
-                                    <h3 class="font-bold text-[#8A8E75] text-xl"><?= esc($p->name) ?></h3>
-                                    <p class="mb-2 text-[#68604D] text-sm"><?= esc($p->description) ?></p>
+                                    <!-- Content Container -->
+                                    <div class="flex-grow p-6 text-center">
+                                        <h3 class="mb-3 font-bold text-[#68604D] text-lg"><?= esc($p->name) ?></h3>
+                                        <p class="mb-4 text-[#5b5346] text-sm line-clamp-3"><?= esc($p->description) ?></p>
+                                        <span class="block mb-6 font-bold text-[#8A8E75] text-lg">₱<?= number_format($p->price, 2) ?></span>
+                                    </div>
 
-                                    <p class="font-bold text-[#8A8E75] text-lg">₱<?= number_format($p->price, 2) ?></p>
-
-                                    <?php if ($isLoggedIn): ?>
-                                        <button
-                                            onclick="openCartModal(
-                                            '<?= $p->id ?>',
-                                            '<?= esc(addslashes($p->name)) ?>',
-                                            '<?= $p->price ?>',
-                                            '<?= $p->quantity ?>'
-                                        )"
-                                            class="bg-[#8A8E75] hover:bg-[#BEC5A4] mt-3 p-2 rounded-lg w-full text-white">
-                                            Add to Cart
-                                        </button>
-                                    <?php else: ?>
-                                        <a href="/loginPage"
-                                            class="bg-[#BEC5A4] hover:bg-[#8A8E75] mt-3 p-2 rounded-lg w-full font-semibold text-white text-center">
-                                            Sign in to Add
-                                        </a>
-                                    <?php endif; ?>
+                                    <!-- Button -->
+                                    <div class="px-6 pb-6">
+                                        <?php if ($isLoggedIn): ?>
+                                            <button
+                                                onclick="openCartModal(
+                                                '<?= $p->id ?>',
+                                                '<?= esc(addslashes($p->name)) ?>',
+                                                '<?= $p->price ?>',
+                                                '<?= $p->quantity ?>'
+                                            )"
+                                                class="w-full bg-[#8A8E75] hover:bg-[#68604D] px-4 py-2 rounded-lg font-semibold text-white transition">
+                                                Add to Cart
+                                            </button>
+                                        <?php else: ?>
+                                            <a href="/loginPage"
+                                                class="block w-full bg-[#BEC5A4] hover:bg-[#8A8E75] px-4 py-2 rounded-lg font-semibold text-white text-center transition">
+                                                Sign in to Add
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -184,7 +190,7 @@ foreach ($cart as $c) {
     </div>
 
     <!-- ADD TO CART MODAL -->
-    <div id="cartModal" class="hidden z-50 fixed inset-0 justify-center items-center bg-black/50">
+    <div id="cartModal" class="hidden z-50 fixed inset-0 flex justify-center items-center bg-black/50">
 
         <div class="bg-white shadow-xl p-8 border border-[#D5C7AD] rounded-2xl w-full max-w-md">
 
@@ -197,7 +203,7 @@ foreach ($cart as $c) {
                 Available Stock: <span id="modalStock"></span>
             </p>
 
-            <form action="/cart/add" method="post" class="mt-2">
+            <form action="/cart/add" method="post" class="mt-2" onsubmit="return handleAddToCart(event)">
                 <?= csrf_field() ?>
 
                 <input type="hidden" name="id" id="modalBookId">
@@ -239,11 +245,36 @@ foreach ($cart as $c) {
             qty.max = stock;
 
             document.getElementById("cartModal").classList.remove("hidden");
-            document.getElementById("cartModal").classList.add("flex");
         }
 
         function closeCartModal() {
             document.getElementById("cartModal").classList.add("hidden");
+        }
+
+        function handleAddToCart(event) {
+            // Prevent default form submission from scrolling page
+            event.preventDefault();
+
+            // Submit the form via fetch to prevent page scroll
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    closeCartModal();
+                    // Reload to update cart
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error adding to cart');
+                });
+
+            return false;
         }
     </script>
 

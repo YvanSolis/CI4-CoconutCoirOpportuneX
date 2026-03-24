@@ -107,34 +107,32 @@ foreach ($cart as $c) {
                         </div>
                     <?php endif; ?>
 
-                    <?php if (!empty($featuredProducts)): ?>
-                        <div class="gap-8 grid md:grid-cols-3 mb-16">
-                            <?php foreach ($featuredProducts as $product): ?>
-                                <div class="bg-white shadow-lg p-6 border border-[#D5C7AD] rounded-xl card-hover">
-                                    <img src="<?= esc($product->image) ?>"
-                                        alt="<?= esc($product->name) ?>"
-                                        class="mb-4 rounded-lg w-full h-48 object-cover">
-                                    <h4 class="mb-2 font-semibold text-[#68604D] text-xl"><?= esc($product->name) ?></h4>
-                                    <p class="mb-4 text-[#5b5346] text-sm line-clamp-2"><?= esc(substr($product->description, 0, 100)) ?>...</p>
-                                    <div class="flex flex-col gap-2">
-                                        <span class="font-bold text-[#68604D] text-lg">$<?= esc($product->price) ?></span>
 
+
+                    <!-- Featured Products -->
+                    <?php if (!empty($featuredProducts)): ?>
+                        <h3 class="mb-8 font-bold text-[#68604D] text-3xl text-center header-title">Featured Products</h3>
+                        <div class="gap-8 grid md:grid-cols-3 mb-12">
+                            <?php foreach ($featuredProducts as $product): ?>
+                                <div class="bg-white shadow-lg border border-[#D5C7AD] rounded-2xl overflow-hidden flex flex-col">
+                                    <!-- Image Container -->
+                                    <div class="p-4 bg-[#F9F5EB] flex items-center justify-center min-h-48">
+                                        <img src="<?= esc($product->image) ?>" alt="<?= esc($product->name) ?>" class="w-full h-auto object-contain max-h-48">
+                                    </div>
+
+                                    <!-- Content Container -->
+                                    <div class="flex-grow p-6 text-center">
+                                        <h4 class="mb-3 font-bold text-[#68604D] text-lg"><?= esc($product->name) ?></h4>
+                                        <p class="mb-4 text-[#5b5346] text-sm line-clamp-3"><?= esc($product->description) ?></p>
+                                        <span class="block mb-6 font-bold text-[#8A8E75] text-lg">₱<?= number_format($product->price, 2) ?></span>
+                                    </div>
+
+                                    <!-- Button -->
+                                    <div class="px-6 pb-6">
                                         <?php if ($isLoggedIn): ?>
-                                            <button
-                                                onclick="openCartModal(
-                                                '<?= $product->id ?>',
-                                                '<?= esc(addslashes($product->name)) ?>',
-                                                '<?= $product->price ?>',
-                                                '<?= $product->quantity ?>'
-                                            )"
-                                                class="bg-[#8A8E75] hover:bg-[#BEC5A4] px-4 py-2 rounded-lg font-semibold text-white text-sm">
-                                                Add to Cart
-                                            </button>
+                                            <button onclick="openCartModal('<?= $product->id ?>', '<?= esc(addslashes($product->name)) ?>', '<?= $product->price ?>', '<?= $product->quantity ?>')" class="w-full bg-[#8A8E75] hover:bg-[#68604D] px-4 py-2 rounded-lg font-semibold text-white transition">Add to Cart</button>
                                         <?php else: ?>
-                                            <a href="/loginPage"
-                                                class="bg-[#BEC5A4] hover:bg-[#8A8E75] px-4 py-2 rounded-lg font-semibold text-white text-sm text-center">
-                                                Sign in to Add
-                                            </a>
+                                            <a href="/loginPage" class="block w-full bg-[#BEC5A4] hover:bg-[#8A8E75] px-4 py-2 rounded-lg font-semibold text-white text-center transition">Sign in to Add</a>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -144,68 +142,7 @@ foreach ($cart as $c) {
                         <p class="text-[#5b5346] text-lg text-center">No featured products available at the moment.</p>
                     <?php endif; ?>
 
-                    <!-- Trending Products -->
-                    <?php if (!empty($trendingProducts)): ?>
-                        <h3 class="mt-16 mb-8 font-bold text-[#68604D] text-3xl text-center header-title">Trending Right Now</h3>
-                        <div class="gap-6 grid md:grid-cols-3 mb-12">
-                            <?php foreach ($trendingProducts as $product): ?>
-                                <div class="bg-white shadow p-5 border border-[#D5C7AD] rounded-xl">
-                                    <img src="<?= esc($product->image) ?>" alt="<?= esc($product->name) ?>" class="mb-3 rounded-lg w-full h-44 object-cover">
-                                    <h4 class="mb-2 font-bold text-[#68604D] text-lg"><?= esc($product->name) ?></h4>
-                                    <p class="mb-3 text-[#5b5346] text-sm line-clamp-2"><?= esc(substr($product->description, 0, 80)) ?>...</p>
-                                    <div class="flex justify-between items-center">
-                                        <span class="font-bold text-[#8A8E75]">₱<?= number_format($product->price, 2) ?></span>
-                                        <?php if ($isLoggedIn): ?>
-                                            <button onclick="openCartModal('<?= $product->id ?>', '<?= esc(addslashes($product->name)) ?>', '<?= $product->price ?>', '<?= $product->quantity ?>')" class="bg-[#8A8E75] hover:bg-[#68604D] px-3 py-2 rounded-lg text-white text-sm">Add to Cart</button>
-                                        <?php else: ?>
-                                            <a href="/loginPage" class="bg-[#BEC5A4] hover:bg-[#8A8E75] px-3 py-2 rounded-lg text-white text-sm text-center">Sign in to Add</a>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
 
-                    <!-- Best Sellers -->
-                    <?php if (!empty($bestSellers)): ?>
-                        <h3 class="mt-8 mb-8 font-bold text-[#68604D] text-3xl text-center header-title">Best Sellers</h3>
-                        <div class="gap-6 grid md:grid-cols-3 mb-12">
-                            <?php foreach ($bestSellers as $product): ?>
-                                <div class="bg-white shadow p-5 border border-[#D5C7AD] rounded-xl">
-                                    <img src="<?= esc($product->image) ?>" alt="<?= esc($product->name) ?>" class="mb-3 rounded-lg w-full h-44 object-cover">
-                                    <h4 class="mb-2 font-bold text-[#68604D] text-lg"><?= esc($product->name) ?></h4>
-                                    <p class="mb-3 text-[#5b5346] text-sm line-clamp-2"><?= esc(substr($product->description, 0, 80)) ?>...</p>
-                                    <div class="flex justify-between items-center">
-                                        <span class="font-bold text-[#8A8E75]">₱<?= number_format($product->price, 2) ?></span>
-                                        <?php if ($isLoggedIn): ?>
-                                            <button onclick="openCartModal('<?= $product->id ?>', '<?= esc(addslashes($product->name)) ?>', '<?= $product->price ?>', '<?= $product->quantity ?>')" class="bg-[#8A8E75] hover:bg-[#68604D] px-3 py-2 rounded-lg text-white text-sm">Add to Cart</button>
-                                        <?php else: ?>
-                                            <a href="/loginPage" class="bg-[#BEC5A4] hover:bg-[#8A8E75] px-3 py-2 rounded-lg text-white text-sm text-center">Sign in to Add</a>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
-
-                    <!-- Product Categories -->
-                    <div class="gap-6 grid md:grid-cols-3 text-center">
-                        <div class="bg-white shadow p-6 border border-[#D5C7AD] rounded-xl">
-                            <h4 class="mb-3 font-semibold text-[#68604D] text-xl">🌟 New Arrivals</h4>
-                            <p class="mb-4 text-[#5b5346]">Discover our latest sustainable coir products</p>
-                            <a href="/shop" class="font-semibold text-[#8A8E75] hover:text-[#68604D]">Shop New →</a>
-                        </div>
-                        <div class="bg-white shadow p-6 border border-[#D5C7AD] rounded-xl">
-                            <h4 class="mb-3 font-semibold text-[#68604D] text-xl">🔥 Trending Now</h4>
-                            <p class="mb-4 text-[#5b5346]">Most popular eco-friendly coir solutions</p>
-                            <a href="/shop?filter=trending" class="font-semibold text-[#8A8E75] hover:text-[#68604D]">Shop Trending →</a>
-                        </div>
-                        <div class="bg-white shadow p-6 border border-[#D5C7AD] rounded-xl">
-                            <h4 class="mb-3 font-semibold text-[#68604D] text-xl">🏆 Best Sellers</h4>
-                            <p class="mb-4 text-[#5b5346]">Customer favorites for sustainable living</p>
-                            <a href="/shop?filter=best-seller" class="font-semibold text-[#8A8E75] hover:text-[#68604D]">Shop Best Sellers →</a>
-                        </div>
-                    </div>
 
                 </div>
             </section>
@@ -230,7 +167,7 @@ foreach ($cart as $c) {
     </div>
 
     <!-- ADD TO CART MODAL -->
-    <div id="cartModal" class="hidden z-50 fixed inset-0 justify-center items-center bg-black/50">
+    <div id="cartModal" class="hidden z-50 fixed inset-0 flex justify-center items-center bg-black/50">
 
         <div class="bg-white shadow-xl p-8 border border-[#D5C7AD] rounded-2xl w-full max-w-md">
 
@@ -243,7 +180,7 @@ foreach ($cart as $c) {
                 Available Stock: <span id="modalStock"></span>
             </p>
 
-            <form action="/cart/add" method="post" class="mt-2">
+            <form action="/cart/add" method="post" class="mt-2" onsubmit="return handleAddToCart(event)">
                 <?= csrf_field() ?>
 
                 <input type="hidden" id="modalProductId" name="id">
@@ -281,6 +218,32 @@ foreach ($cart as $c) {
 
         function closeCartModal() {
             document.getElementById('cartModal').classList.add('hidden');
+        }
+
+        function handleAddToCart(event) {
+            // Prevent default form submission from scrolling page
+            event.preventDefault();
+
+            // Submit the form via fetch to prevent page scroll
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    closeCartModal();
+                    // Optional: Show a success message or refresh cart count
+                    location.reload(); // Reload to update cart
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error adding to cart');
+                });
+
+            return false;
         }
 
         // Close modal when clicking outside
