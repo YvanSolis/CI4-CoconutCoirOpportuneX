@@ -35,7 +35,10 @@ $homeUrl = $user ? '/shop' : '/';
                 <?php endif; ?>
             </a>
             <?php if ($user): ?>
-                <a href="/logout" class="bg-white border border-[#D5C7AD] hover:bg-[#F1EAD8] px-4 py-2 rounded-lg font-semibold text-[#68604D] transition">Logout</a>
+                <form action="/logout" method="post" class="inline">
+                    <?= csrf_field() ?>
+                    <button type="submit" class="bg-white border border-[#D5C7AD] hover:bg-[#F1EAD8] px-4 py-2 rounded-lg font-semibold text-[#68604D] transition">Logout</button>
+                </form>
                 <a href="/profile" class="bg-white border border-[#D5C7AD] hover:bg-[#F1EAD8] px-4 py-2 rounded-lg font-semibold text-[#68604D] transition">Profile</a>
             <?php else: ?>
                 <a href="/loginPage" class="bg-[#68604D] hover:bg-[#8A8E75] px-4 py-2 rounded-lg font-semibold text-white text-sm transition">Sign In</a>
@@ -54,6 +57,7 @@ $homeUrl = $user ? '/shop' : '/';
         <?php if ($user): ?>
             <a href="/profile" class="block px-6 py-3 border-t border-[#F2ECE0]">Profile</a>
             <form action="/logout" method="post" class="px-6 py-3">
+                <?= csrf_field() ?>
                 <button type="submit" class="w-full bg-[#68604D] text-white py-2 rounded-lg">Logout</button>
             </form>
         <?php else: ?>

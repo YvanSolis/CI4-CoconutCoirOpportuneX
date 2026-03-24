@@ -81,7 +81,10 @@ $cartCount = $session->has('cart') ? count($session->get('cart')) : 0;
                     <?php endif; ?>
                 </a>
                 <?php if ($isLoggedIn): ?>
-                    <a href="/logout" class="bg-white border border-[#D5C7AD] hover:bg-[#F1EAD8] px-4 py-2 rounded-lg font-semibold text-[#68604D] transition">Logout</a>
+                    <form action="/logout" method="post" class="inline">
+                        <?= csrf_field() ?>
+                        <button type="submit" class="bg-white border border-[#D5C7AD] hover:bg-[#F1EAD8] px-4 py-2 rounded-lg font-semibold text-[#68604D] transition">Logout</button>
+                    </form>
                     <a href="/profile" class="bg-white border border-[#D5C7AD] hover:bg-[#F1EAD8] px-4 py-2 rounded-lg font-semibold text-[#68604D] transition">Profile</a>
                 <?php else: ?>
                     <a href="/loginPage" class="bg-[#68604D] hover:bg-[#8A8E75] px-4 py-2 rounded-lg font-semibold text-white text-sm transition">
