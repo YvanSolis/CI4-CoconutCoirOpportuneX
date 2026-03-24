@@ -17,6 +17,7 @@ class StockCreate extends BaseController
             'description' => $this->request->getPost('description'),
             'price'       => $this->request->getPost('price'),
             'quantity'    => $this->request->getPost('quantity'),
+            'is_featured' => $this->request->getPost('is_featured') ? 1 : 0,
         ];
 
         $model->insert($data);

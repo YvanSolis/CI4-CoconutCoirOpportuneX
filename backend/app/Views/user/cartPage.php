@@ -69,31 +69,14 @@ foreach ($cartItems as $item) {
         <!-- HEADER -->
         <?= view('components/header.php') ?>
 
-        <!-- Landing-style Hero (copied design) -->
-        <section class="bg-[#F9F5EB] py-14">
-            <div class="mx-auto px-6 max-w-7xl">
-                <div class="grid md:grid-cols-2 gap-6 items-center">
-                    <div>
-                        <p class="mb-4 font-semibold text-[#8A8E75] text-sm uppercase tracking-wider">Your Cart</p>
-                        <h1 class="mb-4 text-4xl md:text-5xl font-bold text-[#3A3B2A] header-title">Finalize your eco-friendly order</h1>
-                        <p class="mb-6 text-[#5B5346] text-lg">Review cart contents, edit quantities, and proceed to checkout with confidence.</p>
-                        <a href="/checkout" class="inline-block bg-[#8A8E75] hover:bg-[#6f7358] px-8 py-3 rounded-lg font-semibold text-white">Proceed to Checkout</a>
-                    </div>
-                    <div>
-                        <img src="/assets/coco_background.png" alt="Cart hero" class="w-full rounded-3xl shadow-lg">
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <main class="flex-grow p-10">
 
             <!-- Greeting -->
             <section class="py-10 text-center">
-                <h2 class="drop-shadow-lg font-bold text-white text-3xl md:text-4xl header-title">
+                <h2 class="drop-shadow-lg font-bold text-[#3A3B2A] text-3xl md:text-4xl header-title">
                     Hello, <?= esc($userFirstName) ?>!
                 </h2>
-                <p class="mt-2 text-white/90 text-lg md:text-xl">
+                <p class="mt-2 text-[#5B5346] text-lg md:text-xl">
                     Your cart items are listed below.
                 </p>
             </section>

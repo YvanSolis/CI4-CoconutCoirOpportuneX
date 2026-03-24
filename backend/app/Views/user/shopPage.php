@@ -100,10 +100,10 @@ foreach ($cart as $c) {
 
             <!-- Greeting -->
             <section class="py-16 text-center">
-                <h2 class="drop-shadow-lg font-bold text-white text-3xl md:text-4xl header-title">
+                <h2 class="drop-shadow-lg font-bold text-[#5B5346] text-3xl md:text-4xl header-title">
                     <?= $isLoggedIn ? "Hello, " . esc($userFirstName) . "!" : "Welcome to EcoCoir Creations!" ?>
                 </h2>
-                <p class="mt-2 text-white/90 text-lg md:text-xl">
+                <p class="mt-2 text-[#5B5346] text-lg md:text-xl">
                     <?= $isLoggedIn ? "Browse our sustainable coconut coir products." : "Discover eco-friendly coconut coir solutions for your home and garden." ?>
                 </p>
             </section>
@@ -169,18 +169,6 @@ foreach ($cart as $c) {
 
                     </div>
                 </div>
-            </section>
-
-            <!-- CTA FULL WIDTH (RESTORED) -->
-            <section class="bg-white/90 backdrop-blur-sm py-32 w-full text-[#68604D] text-center">
-                <?= view('components/cta', [
-                    'heading' => 'Ready to Go Green?',
-                    'sub' => 'Start your sustainable journey with our eco-friendly coconut coir products.',
-                    'primary' => [
-                        'label' => 'Continue Shopping',
-                        'href'  => '/shop'
-                    ]
-                ]) ?>
             </section>
 
             <!-- FOOTER -->

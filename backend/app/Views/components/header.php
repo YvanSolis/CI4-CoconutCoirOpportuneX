@@ -15,7 +15,7 @@ $homeUrl = $user ? '/shop' : '/';
     <div class="flex justify-between items-center mx-auto px-6 py-4 max-w-7xl">
         <!-- Logo -->
         <div class="flex items-center space-x-3">
-            <img src="/assets/eco_white_logo.png" alt="EcoCoir Creations" class="w-12 h-12">
+            <img src="/assets/opportunex_logo.png" alt="EcoCoir Creations" class="w-12 h-12">
             <h1 class="font-bold text-[#68604D] text-2xl header-title">EcoCoir Creations</h1>
         </div>
 
@@ -29,7 +29,7 @@ $homeUrl = $user ? '/shop' : '/';
         <!-- Cart & Auth -->
         <div class="hidden md:flex items-center space-x-4">
             <a href="/cart" class="relative">
-                <img src="/assets/cart_icon.png" alt="Cart" class="w-8 h-8">
+                <img src="/assets/black cart.png" alt="Cart" class="w-8 h-8">
                 <?php if ($cartCount > 0): ?>
                     <span class="absolute -top-1 -right-1 flex justify-center items-center bg-red-500 text-white text-xs rounded-full w-5 h-5"><?= $cartCount ?></span>
                 <?php endif; ?>

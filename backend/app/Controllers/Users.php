@@ -13,13 +13,18 @@ class Users extends BaseController
         $stocksModel = new StocksModel();
 
         // Get featured products for storefront
-        $featuredProducts = $stocksModel->where('is_featured', 1)->findAll();
+        $featuredProducts = $stocksModel->where('is_featured', 1)
+            ->findAll();
 
         // Get trending products (by sales count)
-        $trendingProducts = $stocksModel->orderBy('sales_count', 'DESC')->limit(4)->findAll();
+        $trendingProducts = $stocksModel->orderBy('sales_count', 'DESC')
+            ->limit(4)
+            ->findAll();
 
         // Get best sellers
-        $bestSellers = $stocksModel->orderBy('sales_count', 'DESC')->limit(4)->findAll();
+        $bestSellers = $stocksModel->orderBy('sales_count', 'DESC')
+            ->limit(4)
+            ->findAll();
 
         // Get some random products for variety
         $allProducts = $stocksModel->findAll();
@@ -43,21 +48,26 @@ class Users extends BaseController
         $stocksModel = new StocksModel();
 
         // Get featured products
-        $featuredProducts = $stocksModel->where('is_featured', 1)->findAll();
+        $featuredProducts = $stocksModel->where('is_featured', 1)
+            ->findAll();
 
         // Fallback: if no featured products yet, show top 6 best sellers
         if (empty($featuredProducts)) {
-            $featuredProducts = $stocksModel->orderBy('sales_count', 'DESC')->limit(6)->findAll();
+            $featuredProducts = $stocksModel->orderBy('sales_count', 'DESC')
+                ->limit(6)
+                ->findAll();
             $featuredFallback = true;
         } else {
             $featuredFallback = false;
         }
 
         // Get trending products (by sales count)
-        $trendingProducts = $stocksModel->orderBy('sales_count', 'DESC')->limit(6)->findAll();
+        $trendingProducts = $stocksModel->orderBy('sales_count', 'DESC')
+            ->limit(6)->findAll();
 
         // Get best sellers (same as trending for now)
-        $bestSellers = $stocksModel->orderBy('sales_count', 'DESC')->limit(6)->findAll();
+        $bestSellers = $stocksModel->orderBy('sales_count', 'DESC')
+            ->limit(6)->findAll();
 
         $isLoggedIn = $session->has('user');
 
@@ -174,11 +184,18 @@ class Users extends BaseController
 
         $ordersModel = new \App\Models\OrdersModel();
         $orderItemsModel = new \App\Models\OrderItemsModel();
+        $stocksModel = new StocksModel();
 
         $orders = $ordersModel->where('user_id', $userId)->orderBy('created_at', 'DESC')->findAll();
 
         foreach ($orders as $order) {
             $order->items = $orderItemsModel->where('order_id', $order->id)->findAll();
+
+            // 📊 Fetch product names for display
+            foreach ($order->items as $item) {
+                $product = $stocksModel->find($item->stock_id);
+                $item->product_name = $product ? $product->name : 'Unknown Product';
+            }
         }
 
         return view('user/ordersPage', [
@@ -335,6 +352,7 @@ class Users extends BaseController
         $session->remove($cartKey);
         $session->remove('cart');
 
-        return redirect()->to('/shop')->with('success', 'Order placed!');
+        // 📊 Sync: Order created, inventory updated, redirect to confirmation
+        return redirect()->to('/orders')->with('success', 'Order placed successfully! See your confirmation below.');
     }
 }

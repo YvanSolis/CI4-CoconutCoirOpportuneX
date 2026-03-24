@@ -80,7 +80,7 @@ class Auth extends BaseController
             return redirect()->to('/seller/dashboard');
         }
 
-        return redirect()->to('/shop');
+        return redirect()->to('/');
     }
 
     public function logout()

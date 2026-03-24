@@ -92,6 +92,7 @@ $currentPath = $uri->getPath();
                             <th class="px-6 py-3 text-left uppercase">Title</th>
                             <th class="px-6 py-3 text-left uppercase">Description</th>
                             <th class="px-6 py-3 text-center uppercase">Quantity</th>
+                            <th class="px-6 py-3 text-center uppercase">Featured</th>
                             <th class="px-6 py-3 text-center uppercase">Price</th>
                             <th class="px-6 py-3 text-center uppercase">Actions</th>
                         </tr>
@@ -121,6 +122,10 @@ $currentPath = $uri->getPath();
 
                                     <td class="px-6 py-4 font-bold text-gray-800 text-center"><?= esc($book->quantity) ?></td>
 
+                                    <td class="px-6 py-4 text-center">
+                                        <?= $book->is_featured ? '<span class="text-green-600 font-semibold">Yes</span>' : '<span class="text-gray-500">No</span>' ?>
+                                    </td>
+
                                     <td class="px-6 py-4 font-semibold text-[#E15A37] text-center">
                                         ₱<?= number_format($book->price, 2) ?>
                                     </td>
@@ -135,11 +140,20 @@ $currentPath = $uri->getPath();
                                                 `<?= addslashes($book->image) ?>`,
                                                 `<?= addslashes($book->description) ?>`,
                                                 '<?= $book->price ?>',
-                                                '<?= $book->quantity ?>'
+                                                '<?= $book->quantity ?>',
+                                                <?= $book->is_featured ? 'true' : 'false' ?>
                                             )"
                                             class="mx-2 font-semibold text-[#E15A37] hover:text-[#ED865A]">
                                             ✏️ Edit
                                         </a>
+
+                                        <!-- TOGGLE FEATURE -->
+                                        <form action="/admin/stock/toggleFeatured/<?= $book->id ?>" method="post" class="inline">
+                                            <?= csrf_field() ?>
+                                            <button type="submit" class="mx-2 font-semibold text-[#1F7A1F] hover:text-[#156217]">
+                                                <?= $book->is_featured ? '★ Unfeature' : '☆ Feature' ?>
+                                            </button>
+                                        </form>
 
                                         <!-- DELETE -->
                                         <a href="#"
@@ -206,38 +220,33 @@ $currentPath = $uri->getPath();
                 <textarea name="description" placeholder="Book Description" rows="4" class="px-3 py-2 border border-[#FCE77C] rounded-lg" required></textarea>
                 <input type="number" step="0.01" name="price" placeholder="Price" class="px-3 py-2 border border-[#FCE77C] rounded-lg" required>
                 <input type="number" name="quantity" placeholder="Stock Quantity" class="px-3 py-2 border border-[#FCE77C] rounded-lg" required>
-            </div>
+                <label class="inline-flex items-center mt-2">
+                    <input type="checkbox" name="is_featured" value="1" class="form-checkbox h-5 w-5 text-[#E15A37]">
+                    <span class="ml-2 text-[#514D4D]">Mark as Featured</span>
+                </label>
 
-            <div class="flex justify-end gap-3 pt-4">
-                <button type="button" onclick="closeAddBook()" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-lg text-gray-700">Cancel</button>
-                <button type="submit" class="bg-[#E15A37] hover:bg-[#ED865A] px-6 py-2 rounded-lg text-white">Add Book</button>
-            </div>
-        </form>
-    </dialog>
+                <?= csrf_field() ?>
 
-    <!-- EDIT BOOK MODAL -->
-    <dialog id="editBookModal" class="backdrop:bg-black/60 p-0 rounded-2xl w-[95%] max-w-lg">
-        <form method="post" id="editBookForm"
-            class="space-y-4 bg-white shadow-xl p-6 border border-[#FCE77C] rounded-2xl">
+                <h3 class="mb-4 font-bold text-[#E15A37] text-3xl header-title">✏️ Edit Book</h3>
 
-            <?= csrf_field() ?>
+                <input type="hidden" name="id" id="edit_id">
 
-            <h3 class="mb-4 font-bold text-[#E15A37] text-3xl header-title">✏️ Edit Book</h3>
+                <div class="gap-3 grid grid-cols-1">
+                    <input type="text" id="edit_name" name="name" class="px-3 py-2 border border-[#FCE77C] rounded-lg" required>
+                    <input type="text" id="edit_image" name="image" class="px-3 py-2 border border-[#FCE77C] rounded-lg">
+                    <textarea id="edit_description" name="description" rows="4" class="px-3 py-2 border border-[#FCE77C] rounded-lg" required></textarea>
+                    <input type="number" step="0.01" id="edit_price" name="price" class="px-3 py-2 border border-[#FCE77C] rounded-lg" required>
+                    <input type="number" id="edit_quantity" name="quantity" class="px-3 py-2 border border-[#FCE77C] rounded-lg" required>
+                    <label class="inline-flex items-center mt-2">
+                        <input type="checkbox" id="edit_is_featured" name="is_featured" value="1" class="form-checkbox h-5 w-5 text-[#E15A37]">
+                        <span class="ml-2 text-[#514D4D]">Mark as Featured</span>
+                    </label>
+                </div>
 
-            <input type="hidden" name="id" id="edit_id">
-
-            <div class="gap-3 grid grid-cols-1">
-                <input type="text" id="edit_name" name="name" class="px-3 py-2 border border-[#FCE77C] rounded-lg" required>
-                <input type="text" id="edit_image" name="image" class="px-3 py-2 border border-[#FCE77C] rounded-lg">
-                <textarea id="edit_description" name="description" rows="4" class="px-3 py-2 border border-[#FCE77C] rounded-lg" required></textarea>
-                <input type="number" step="0.01" id="edit_price" name="price" class="px-3 py-2 border border-[#FCE77C] rounded-lg" required>
-                <input type="number" id="edit_quantity" name="quantity" class="px-3 py-2 border border-[#FCE77C] rounded-lg" required>
-            </div>
-
-            <div class="flex justify-end gap-3 pt-4">
-                <button type="button" onclick="closeEditBook()" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-lg text-gray-700">Cancel</button>
-                <button type="submit" class="bg-[#E15A37] hover:bg-[#ED865A] px-6 py-2 rounded-lg text-white">Save Changes</button>
-            </div>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="closeEditBook()" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-lg text-gray-700">Cancel</button>
+                    <button type="submit" class="bg-[#E15A37] hover:bg-[#ED865A] px-6 py-2 rounded-lg text-white">Save Changes</button>
+                </div>
         </form>
     </dialog>
 
@@ -282,13 +291,14 @@ $currentPath = $uri->getPath();
             document.getElementById('addBookModal').close();
         }
 
-        function openEditBook(id, name, image, description, price, quantity) {
+        function openEditBook(id, name, image, description, price, quantity, isFeatured) {
             document.getElementById('edit_id').value = id;
             document.getElementById('edit_name').value = name;
             document.getElementById('edit_image').value = image;
             document.getElementById('edit_description').value = description;
             document.getElementById('edit_price').value = price;
             document.getElementById('edit_quantity').value = quantity;
+            document.getElementById('edit_is_featured').checked = Boolean(isFeatured);
 
             document.getElementById('editBookForm').action = `/admin/stocks/update/${id}`;
 

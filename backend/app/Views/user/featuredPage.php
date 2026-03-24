@@ -85,10 +85,10 @@ foreach ($cart as $c) {
 
             <!-- Featured Products Section -->
             <section class="py-16 text-center">
-                <h2 class="drop-shadow-lg font-bold text-white text-3xl md:text-4xl header-title">
+                <h2 class="drop-shadow-lg font-bold text-[#3A3B2A] text-3xl md:text-4xl header-title">
                     Featured Products
                 </h2>
-                <p class="mt-2 text-white/90 text-lg md:text-xl">
+                <p class="mt-2 text-[#5B5346] text-lg md:text-xl">
                     Discover our handpicked selection of premium coconut coir products.
                 </p>
             </section>

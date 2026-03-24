@@ -22,6 +22,7 @@ class StockUpdate extends BaseController
             'price'       => $this->request->getPost('price'),
             'quantity'    => $this->request->getPost('quantity'),
             'image'       => $this->request->getPost('image'),
+            'is_featured' => $this->request->getPost('is_featured') ? 1 : 0,
         ];
 
         $stocksModel->update($id, $data);
