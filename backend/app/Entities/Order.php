@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Entities;
+
+use CodeIgniter\Entity\Entity;
+
+class Order extends Entity
+{
+    protected $datamap = [];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
+    protected $casts = [
+        'total_amount' => 'float',
+        'user_id' => 'int',
+    ];
+}
