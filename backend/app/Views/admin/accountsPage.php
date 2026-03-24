@@ -176,6 +176,7 @@
         <nav class="flex-1 space-y-2 p-4">
             <a href="/admin/inventoryReports" class="block px-4 py-3 rounded-lg sidebar-link">📊 Dashboard</a>
             <a href="/admin/stockPage" class="block px-4 py-3 rounded-lg sidebar-link">📚 Stocks Page</a>
+            <a href="/admin/ordersHistory" class="block px-4 py-3 rounded-lg sidebar-link">🧾 Order History</a>
             <a href="/admin/accountsPage" class="block bg-[#F1EAD8]/30 px-4 py-3 rounded-lg sidebar-link">👤 Accounts Page</a>
         </nav>
 

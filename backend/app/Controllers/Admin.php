@@ -92,6 +92,53 @@ class Admin extends BaseController
         ]);
     }
 
+    public function ordersHistory()
+    {
+        $this->checkAdminAccess();
+
+        $ordersModel = new OrdersModel();
+        $orderItemsModel = new OrderItemsModel();
+
+        $orders = $ordersModel
+            ->select('orders.*, users.first_name, users.middle_name, users.last_name, users.email')
+            ->join('users', 'users.id = orders.user_id', 'left')
+            ->orderBy('orders.id', 'ASC')
+            ->findAll();
+
+        $orderIds = array_map(static fn($order) => $order->id, $orders);
+        $itemsByOrderId = [];
+
+        if (!empty($orderIds)) {
+            $orderItems = $orderItemsModel
+                ->select('order_items.*, stocks.name as product_name')
+                ->join('stocks', 'stocks.id = order_items.stock_id', 'left')
+                ->whereIn('order_items.order_id', $orderIds)
+                ->orderBy('order_items.id', 'ASC')
+                ->findAll();
+
+            foreach ($orderItems as $item) {
+                $itemsByOrderId[$item->order_id][] = $item;
+            }
+        }
+
+        foreach ($orders as $order) {
+            $middle = trim((string) ($order->middle_name ?? ''));
+            $middleWithSpace = $middle !== '' ? $middle . ' ' : '';
+
+            $order->customer_name = trim(
+                ($order->first_name ?? '') . ' ' .
+                    $middleWithSpace .
+                    ($order->last_name ?? '')
+            );
+            $order->items = $itemsByOrderId[$order->id] ?? [];
+        }
+
+        return view('admin/ordersHistory', [
+            'adminFirstName' => session()->get('user')['first_name'] ?? 'Admin',
+            'orders' => $orders,
+        ]);
+    }
+
     public function accountsPage()
     {
         $this->checkAdminAccess();

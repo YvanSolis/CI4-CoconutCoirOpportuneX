@@ -120,6 +120,7 @@
         <nav class="flex-1 space-y-2 p-4">
             <a href="/admin/inventoryReports" class="block bg-[#F1EAD8]/30 hover:bg-[#6f7358] px-4 py-3 rounded-lg hover:text-white sidebar-link">📊 Dashboard</a>
             <a href="/admin/stockPage" class="block hover:bg-[#6f7358] px-4 py-3 rounded-lg hover:text-white sidebar-link">📚 Stocks Page</a>
+            <a href="/admin/ordersHistory" class="block hover:bg-[#6f7358] px-4 py-3 rounded-lg hover:text-white sidebar-link">🧾 Order History</a>
             <a href="/admin/accountsPage" class="block hover:bg-[#6f7358] px-4 py-3 rounded-lg hover:text-white sidebar-link">👤 Accounts Page</a>
         </nav>
         <div class="p-4 border-[#D5C7AD]/30 border-t">

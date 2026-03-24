@@ -48,6 +48,7 @@ $routes->post('/checkout/placeOrder', 'Users::placeOrder');
 $routes->get('/admin/stockPage', 'Admin::stockPage');
 $routes->post('/admin/stock/toggleFeatured/(:num)', 'Admin::toggleFeatured/$1');
 $routes->get('/admin/inventoryReports', 'Admin::inventoryReports');
+$routes->get('/admin/ordersHistory', 'Admin::ordersHistory');
 $routes->get('/admin/accountsPage', 'Admin::accountsPage');
 
 // ⭐Accounts Management
