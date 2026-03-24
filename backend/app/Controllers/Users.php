@@ -45,6 +45,14 @@ class Users extends BaseController
         // Get featured products
         $featuredProducts = $stocksModel->where('is_featured', 1)->findAll();
 
+        // Fallback: if no featured products yet, show top 6 best sellers
+        if (empty($featuredProducts)) {
+            $featuredProducts = $stocksModel->orderBy('sales_count', 'DESC')->limit(6)->findAll();
+            $featuredFallback = true;
+        } else {
+            $featuredFallback = false;
+        }
+
         // Get trending products (by sales count)
         $trendingProducts = $stocksModel->orderBy('sales_count', 'DESC')->limit(6)->findAll();
 
@@ -57,6 +65,7 @@ class Users extends BaseController
             'featuredProducts' => $featuredProducts,
             'trendingProducts' => $trendingProducts,
             'bestSellers' => $bestSellers,
+            'featuredFallback' => $featuredFallback ?? false,
             'isLoggedIn' => $isLoggedIn,
         ]);
     }

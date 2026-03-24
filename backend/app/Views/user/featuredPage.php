@@ -19,15 +19,16 @@ foreach ($cart as $c) {
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
 
+    <?= view('components/landingStyle') ?>
+
     <style>
         body {
-            background: url('/assets/background.png') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
             font-family: 'Roboto Slab', serif;
         }
 
         .overlay {
-            background: linear-gradient(rgba(138, 142, 117, 0.75), rgba(190, 197, 164, 0.5));
+            background: rgba(255, 255, 255, 0.75);
         }
 
         .header-title {
@@ -38,7 +39,16 @@ foreach ($cart as $c) {
         .card-hover:hover,
         a:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(225, 90, 55, 0.3);
+            box-shadow: 0 12px 26px rgba(104, 96, 77, 0.25);
+        }
+
+        .primary-btn {
+            background-color: #8A8E75;
+            color: #FFFFFF;
+        }
+
+        .primary-btn:hover {
+            background-color: #6f7358;
         }
 
         .cart-badge {
@@ -54,9 +64,26 @@ foreach ($cart as $c) {
         <!-- Header -->
         <?= view('components/header.php', ['showCart' => true, 'cartCount' => $cartCount]) ?>
 
+        <!-- Landing-style Hero (copied design) -->
+        <section class="bg-[#F9F5EB] py-14">
+            <div class="mx-auto px-6 max-w-7xl">
+                <div class="grid md:grid-cols-2 gap-6 items-center">
+                    <div>
+                        <p class="mb-4 font-semibold text-[#8A8E75] text-sm uppercase tracking-wider">Featured Collection</p>
+                        <h1 class="mb-4 text-4xl md:text-5xl font-bold text-[#3A3B2A] header-title">Handpicked EcoCoir Favorites</h1>
+                        <p class="mb-6 text-[#5B5346] text-lg">Enjoy our sustainably sourced, high-quality coconut coir items—best sellers and customer picks in one place.</p>
+                        <a href="/shop" class="inline-block bg-[#8A8E75] hover:bg-[#6f7358] px-8 py-3 rounded-lg font-semibold text-white">Shop All Products</a>
+                    </div>
+                    <div>
+                        <img src="/assets/coco_background.png" alt="Featured hero" class="w-full rounded-3xl shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <main class="flex-grow">
 
-            <!-- Hero Section -->
+            <!-- Featured Products Section -->
             <section class="py-16 text-center">
                 <h2 class="drop-shadow-lg font-bold text-white text-3xl md:text-4xl header-title">
                     Featured Products
@@ -73,6 +100,12 @@ foreach ($cart as $c) {
                     <h3 class="mb-12 font-bold text-[#68604D] text-4xl text-center header-title">
                         Handpicked for You
                     </h3>
+
+                    <?php if (!empty($featuredProducts) && !empty($featuredFallback)): ?>
+                        <div class="mb-6 text-center text-sm text-[#5b5346]">
+                            No official featured items yet; showing top-selling products instead.
+                        </div>
+                    <?php endif; ?>
 
                     <?php if (!empty($featuredProducts)): ?>
                         <div class="gap-8 grid md:grid-cols-3 mb-16">

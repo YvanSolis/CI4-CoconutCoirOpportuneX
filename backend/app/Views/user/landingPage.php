@@ -51,6 +51,7 @@
 <?php
 $session = session();
 $isLoggedIn = $session->has('user');
+$cartCount = $session->has('cart') ? count($session->get('cart')) : 0;
 ?>
 
 <body class="text-[#514d4d]">
@@ -77,10 +78,18 @@ $isLoggedIn = $session->has('user');
             <div class="flex items-center space-x-4">
                 <a href="/cart" class="relative">
                     <img src="/assets/cart_icon.png" alt="Cart" class="w-8 h-8">
+                    <?php if ($cartCount > 0): ?>
+                        <span class="absolute -top-1 -right-1 flex justify-center items-center bg-red-500 text-white text-xs rounded-full w-5 h-5"><?= $cartCount ?></span>
+                    <?php endif; ?>
                 </a>
-                <a href="/loginPage" class="bg-[#68604D] hover:bg-[#8A8E75] px-4 py-2 rounded-lg font-semibold text-white text-sm transition">
-                    Sign In
-                </a>
+                <?php if ($isLoggedIn): ?>
+                    <a href="/logout" class="bg-white border border-[#D5C7AD] hover:bg-[#F1EAD8] px-4 py-2 rounded-lg font-semibold text-[#68604D] transition">Logout</a>
+                    <a href="/profile" class="bg-white border border-[#D5C7AD] hover:bg-[#F1EAD8] px-4 py-2 rounded-lg font-semibold text-[#68604D] transition">Profile</a>
+                <?php else: ?>
+                    <a href="/loginPage" class="bg-[#68604D] hover:bg-[#8A8E75] px-4 py-2 rounded-lg font-semibold text-white text-sm transition">
+                        Sign In
+                    </a>
+                <?php endif; ?>
             </div>
         </div>
     </header>

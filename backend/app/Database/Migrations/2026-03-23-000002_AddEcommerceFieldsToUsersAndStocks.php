@@ -8,51 +8,78 @@ class AddEcommerceFieldsToUsersAndStocks extends Migration
 {
     public function up()
     {
-        $this->forge->addColumn('users', [
-            'address' => [
+        $userFields = [];
+
+        if (!$this->db->fieldExists('address', 'users')) {
+            $userFields['address'] = [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
                 'null' => true,
-            ],
-            'mobile' => [
+            ];
+        }
+
+        if (!$this->db->fieldExists('mobile', 'users')) {
+            $userFields['mobile'] = [
                 'type' => 'VARCHAR',
                 'constraint' => 20,
                 'null' => true,
-            ],
-            'type' => [
+            ];
+        }
+
+        if (!$this->db->fieldExists('type', 'users')) {
+            $userFields['type'] = [
                 'type' => 'ENUM',
                 'constraint' => ['client', 'seller', 'admin', 'buyer-seller'],
                 'default' => 'client',
                 'null' => false,
-            ],
-        ]);
+            ];
+        }
 
-        $this->forge->addColumn('stocks', [
-            'seller_id' => [
+        if (!empty($userFields)) {
+            $this->forge->addColumn('users', $userFields);
+        }
+
+        $stockFields = [];
+
+        if (!$this->db->fieldExists('seller_id', 'stocks')) {
+            $stockFields['seller_id'] = [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true,
                 'null' => true,
-            ],
-            'category' => [
+            ];
+        }
+
+        if (!$this->db->fieldExists('category', 'stocks')) {
+            $stockFields['category'] = [
                 'type' => 'VARCHAR',
                 'constraint' => 100,
                 'null' => true,
-            ],
-            'is_featured' => [
+            ];
+        }
+
+        if (!$this->db->fieldExists('is_featured', 'stocks')) {
+            $stockFields['is_featured'] = [
                 'type' => 'TINYINT',
                 'constraint' => 1,
                 'default' => 0,
                 'null' => false,
-            ],
-            'sales_count' => [
+            ];
+        }
+
+        if (!$this->db->fieldExists('sales_count', 'stocks')) {
+            $stockFields['sales_count'] = [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true,
                 'default' => 0,
                 'null' => false,
-            ],
-        ]);
+            ];
+        }
+
+        if (!empty($stockFields)) {
+            $this->forge->addColumn('stocks', $stockFields);
+        }
     }
 
     public function down()
